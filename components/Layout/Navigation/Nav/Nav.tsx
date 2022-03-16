@@ -29,11 +29,28 @@ const Nav: React.FC<NavProps> = (props) => {
 
   const mainLogo = data?.footer?.logos && data.footer.logos[0];
 
-  const scrolled = useScrollThreshold(800);
+  const scrolled = useScrollThreshold(200);
 
   return (
     <>
       <nav>
+        {mainLogo && (
+          <div
+            className={`
+            overflow-hidden
+            ${
+              !scrolled ? "max-h-24 border-b-2 " : "max-h-0 "
+            } border-black transition-all  h-24  flex justify-center items-center `}
+          >
+            <div className="relative w-[300px] h-11 ">
+              <SanityImage
+                image={mainLogo.image}
+                layout={"fill"}
+                objectFit="contain"
+              />
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between w-full  border-b-2 border-black h-14 ">
           <Link aria-label="Home" href="/">
             <Logo />
@@ -67,24 +84,6 @@ const Nav: React.FC<NavProps> = (props) => {
             <Svg className="w-[30px] h-[30px]" icon="hamburger" />
           </button>
         </div>
-
-        {mainLogo && (
-          <div
-            className={`
-            transition-transform
-            ${
-              !scrolled ? "" : "translate-x-full"
-            } absolute top-14 -translate-y-0.5 right-0 border-t-0 border-r-0 bg-white  border-2 border-black p-2`}
-          >
-            <div className="relative w-[200px] h-11">
-              <SanityImage
-                image={mainLogo.image}
-                layout={"fill"}
-                objectFit="contain"
-              />
-            </div>
-          </div>
-        )}
       </nav>
       <NavigationMobile
         items={items}
