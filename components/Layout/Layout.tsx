@@ -28,13 +28,12 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       <LayoutContextProvider homeRoute={data?.homeRoute}>
         <SkipToContent containerId="main-content" />
         <Header>
-          <Nav items={data?.navigation || []} slugs={data?.langSwitchData} />
+          <Nav />
         </Header>
-
         <main id="main-content" className="min-h-screen mt-[57px] select-none">
           {children}
         </main>
-        {data && <Footer {...data} />}
+        <Footer />
       </LayoutContextProvider>
     </>
   );
