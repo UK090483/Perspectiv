@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 interface ILayoutContextState {
   homeRoute: { [k: string]: string } | null;
@@ -18,9 +18,17 @@ interface LayoutContextProviderProps {
 export const LayoutContextProvider: React.FC<LayoutContextProviderProps> = (
   props
 ) => {
+  const [logoShown, setLogoShown] = useState(false);
+
   const { children, ...rest } = props;
   return (
-    <LayoutContext.Provider value={{ ...defaultState, ...rest }}>
+    <LayoutContext.Provider
+      value={{
+        ...defaultState,
+
+        ...rest,
+      }}
+    >
       {children}
     </LayoutContext.Provider>
   );
@@ -40,16 +48,6 @@ export const useHomeRoute = () => {
     const homeLink =
       homeRoute && homeRoute[isDefaultLocale ? "slug" : `slug_${linkLocale}`];
     const isHomeLink = `/${homeLink}` === href;
-
-    // console.log({
-    //   href,
-    //   isHomeLink,
-    //   homeRoute,
-    //   linkLocale,
-    //   locale,
-    //   isDefaultLocale,
-    // });
-
     return isHomeLink ? "/" : href;
   };
 
