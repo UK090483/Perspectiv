@@ -41,6 +41,14 @@ export const useHomeRoute = () => {
   const homeRoute = data?.homeRoute;
   const { locale: currentLocale, defaultLocale } = useRouter();
 
+  const isHomeRoute = (slug: string) => {
+    const isDefaultLocale = currentLocale === defaultLocale;
+    const homeLink =
+      homeRoute &&
+      homeRoute[isDefaultLocale ? "slug" : `slug_${currentLocale}`];
+    return `/${homeLink}` === slug;
+  };
+
   const parseRoute = (href: string, locale?: string) => {
     const linkLocale = locale || currentLocale;
     const isDefaultLocale = linkLocale === defaultLocale;
@@ -50,5 +58,5 @@ export const useHomeRoute = () => {
     return isHomeLink ? "/" : href;
   };
 
-  return { homeRoute, parseRoute };
+  return { homeRoute, parseRoute, isHomeRoute };
 };

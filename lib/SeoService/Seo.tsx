@@ -11,22 +11,23 @@ type SeoProps = {
 };
 
 const Seo: React.FC<SeoProps> = (props) => {
-  const { pathname } = useRouter();
+  const { pathname, defaultLocale, asPath, locale } = useRouter();
   const { data, hostName } = useAppContext();
   const seo = data?.seo;
-  const slug = data?.slug;
+  const preparedLocale = defaultLocale === locale ? "" : "/" + locale;
+  const canonicalRoute = `${preparedLocale}${asPath === "/" ? "" : asPath}`;
 
   if (!seo) return null;
   const { metaTitle, metaDesc, shareDesc, shareGraphic } = seo;
 
-  const canUrl = `${hostName}${slug}`;
+  const canUrl = `${hostName}${canonicalRoute}`;
   const is404 = pathname === "/404";
   const title = is404 ? titlePrefix + "404" : titlePrefix + metaTitle;
 
   return (
     <NextSeo
-      nofollow={true}
-      noindex={true}
+      // nofollow={true}
+      // noindex={true}
       title={title}
       description={metaDesc}
       canonical={canUrl}
