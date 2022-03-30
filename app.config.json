@@ -1,5 +1,5 @@
 {
-  "hostname": "https://perspectiv.vercel.app",
+  "hostname": "https://www.perspektivregion.eu",
   "locales": {
     "de": { "title": "Deutsch", "isDefault": true, "flag": "🇩🇪" },
     "da": { "title": "Dänisch", "flag": "🇩🇰" },
