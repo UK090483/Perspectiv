@@ -9,7 +9,7 @@ import { PageResult } from "./[[...slug]]";
 import { PageProps } from "@lib/SanityPageBuilder/types";
 import usePreviewSubscription from "@lib/SanityPageBuilder/lib/preview/previewSubscription";
 import { AppContextProvider } from "@components/AppContext";
-import { AnalyticsContextProvider } from "@lib/Analytics/AnalyticsContext";
+// import { AnalyticsContextProvider } from "@lib/Analytics/AnalyticsContext";
 
 import AppConfig from "app.config.json";
 
@@ -33,16 +33,16 @@ function App({ Component, pageProps: _pageProps }: AppPropsWithStaticProps) {
   const pageProps = { ..._pageProps, data: aData } as PageProps<PageResult>;
 
   return (
-    <AnalyticsContextProvider id="G-YVH817HM4Z">
-      <AppContextProvider data={pageProps.data} hostName={AppConfig.hostname}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <PreviewIndicator show={!!preview} />
-        <Cookie />
-        <Seo />
-      </AppContextProvider>
-    </AnalyticsContextProvider>
+    // <AnalyticsContextProvider id="G-YVH817HM4Z">
+    <AppContextProvider data={pageProps.data} hostName={AppConfig.hostname}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      <PreviewIndicator show={!!preview} />
+      {/* <Cookie /> */}
+      <Seo />
+    </AppContextProvider>
+    // </AnalyticsContextProvider>
   );
 }
 

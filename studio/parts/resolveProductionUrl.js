@@ -4,11 +4,11 @@ const localUrl = `http://localhost:3000`;
 const previewSecret = "j8heapkqy4rdz6kudrvsc7ywpvfhrv022abyx5zgmuwpc1xv";
 
 export default function resolveProductionUrl(doc) {
-  console.log({
-    env: process.env,
-    previewSecret,
-    env2: process.env.SANITY_STUDIO_API_DATASET,
-  });
+  // console.log({
+  //   env: process.env,
+  //   previewSecret,
+  //   env2: process.env.SANITY_STUDIO_API_DATASET,
+  // });
   if (!["page"].includes(doc?._type)) return false;
   const baseUrl =
     window.location.hostname === "localhost" ? localUrl : remoteUrl;
