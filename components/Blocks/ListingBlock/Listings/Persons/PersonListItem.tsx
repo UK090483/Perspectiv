@@ -55,39 +55,43 @@ const PersonListItem: React.FunctionComponent<IPersonListItemProps> = (
         </Typo>
       </div>
       <Typo className="whitespace-pre-line text-center w-60">{position}</Typo>
-      <button
-        className="underline text-sm sm:text-base"
-        data-tip
-        data-for={_id}
-      >
-        {readMoreText}
-      </button>
-
-      <ReactTooltip
-        overridePosition={(position) => {
-          const wWidth = window.innerWidth;
-          const needFitLeft = position.left < 0;
-          const needFitRight = position.left + 280 > wWidth;
-          const needFitTop = position.top < 0;
-          let p = { ...position };
-          if (needFitLeft) {
-            p = { ...p, left: 20 };
-          }
-          if (needFitRight) {
-            p = { ...p, left: wWidth - 300 };
-          }
-          if (needFitTop) {
-            p = { ...p, top: 20 };
-          }
-          return p;
-        }}
-        id={_id}
-        effect="float"
-        multiline={true}
-        className="tooltip"
-      >
-        {description}
-      </ReactTooltip>
+      {description && (
+        <>
+          {" "}
+          <button
+            className="underline text-sm sm:text-base"
+            data-tip
+            data-for={_id}
+          >
+            {readMoreText}
+          </button>
+          <ReactTooltip
+            overridePosition={(position) => {
+              const wWidth = window.innerWidth;
+              const needFitLeft = position.left < 0;
+              const needFitRight = position.left + 280 > wWidth;
+              const needFitTop = position.top < 0;
+              let p = { ...position };
+              if (needFitLeft) {
+                p = { ...p, left: 20 };
+              }
+              if (needFitRight) {
+                p = { ...p, left: wWidth - 300 };
+              }
+              if (needFitTop) {
+                p = { ...p, top: 20 };
+              }
+              return p;
+            }}
+            id={_id}
+            effect="float"
+            multiline={true}
+            className="tooltip"
+          >
+            {description}
+          </ReactTooltip>{" "}
+        </>
+      )}
     </li>
   );
 };
