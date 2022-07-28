@@ -6,14 +6,8 @@ import { PlayerPlugResult } from "./playerPlugQuery";
 import { useVideoContext, VideoContextWrap } from "./VideoContext";
 import Typo from "@components/Typography/Typography";
 
-interface IPlayerPlugProps {
-  url?: string | null;
-}
-
 const PlayerPlug: React.FC<PlugProps<PlayerPlugResult>> = (props) => {
   const { url, urls } = props.node;
-
-  if (!url) return null;
 
   const hasMultiple = urls && urls.length > 1;
 
@@ -43,13 +37,7 @@ const PlayerPlug: React.FC<PlugProps<PlayerPlugResult>> = (props) => {
                 key={i._key}
                 url={i.url}
                 id={i._key}
-                imageUrl={
-                  i.image?.url
-                    ? i.image?.url + hasMultiple
-                      ? "?w=600"
-                      : "?w=1200"
-                    : undefined
-                }
+                imageUrl={i.image?.url}
                 title={i.title}
               />
             );
@@ -64,12 +52,14 @@ export default PlayerPlug;
 const Video: React.FC<{
   url: string;
   id: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   title?: string | null;
 }> = (props) => {
   const { url, id, imageUrl, title } = props;
 
   const { playingVideo, setPlayingVideo } = useVideoContext();
+
+  const _imageUrl = imageUrl ? imageUrl + "?w=1200" : true;
 
   return (
     <div>
@@ -82,7 +72,7 @@ const Video: React.FC<{
           width="100%"
           height="100%"
           url={url}
-          light={imageUrl || true}
+          light={_imageUrl}
           pip={true}
         />
       </div>

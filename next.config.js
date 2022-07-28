@@ -13,6 +13,7 @@ const config = {
       (acc, [key, lang]) => (lang.isDefault ? key : acc),
       null
     ),
+    localeDetection: false,
   },
 
   env: {
