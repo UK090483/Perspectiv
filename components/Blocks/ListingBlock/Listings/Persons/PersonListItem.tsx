@@ -26,6 +26,8 @@ const PersonListItem: React.FunctionComponent<IPersonListItemProps> = (
   const isImage = variant === "image";
   const readMoreText = locale ? readMore[locale] : "mehr Erfahren";
 
+  const hasAvatar = !!avatar?.url;
+
   return (
     <li className="flex flex-col items-center justify-center sm:min-w-[250px] w-1/2   sm:w-1/4 py-8 self-start">
       <div className="tooltip hidden" />
@@ -36,11 +38,13 @@ const PersonListItem: React.FunctionComponent<IPersonListItemProps> = (
             : "rounded-full w-24 sm:w-32"
         } `}
       >
-        <SanityImage
-          image={avatar}
-          objectFit={isImage ? "contain" : "cover"}
-          sizes={"350px"}
-        />
+        {hasAvatar && (
+          <SanityImage
+            image={avatar}
+            objectFit={isImage ? "contain" : "cover"}
+            sizes={"350px"}
+          />
+        )}
       </div>
 
       <div className="pt-3 h-12 ">

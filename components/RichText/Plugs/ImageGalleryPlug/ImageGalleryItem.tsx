@@ -4,68 +4,65 @@ import Typo from "@components/Typography/Typography";
 import { LinkResult } from "@lib/Navigation/query";
 import SanityImage from "@lib/SanityImage";
 import type { ImageMetaResult } from "@lib/SanityImage/query";
+import { ImageGalleryPlugItem } from "./imageGalleryPlugQuery";
+import clsx from "clsx";
 
-type ImageGalleryItemProps = {
-  image?: ImageMetaResult;
-  title?: string;
-  link?: LinkResult;
+interface ImageGalleryItemProps extends ImageGalleryPlugItem {
+  textSize?: "s" | "m" | "l";
   className?: string;
   contain?: boolean;
-};
+  onClick?: () => void;
+}
 
 const ImageGalleryItem: React.FunctionComponent<ImageGalleryItemProps> = (
   props
 ) => {
-  const { image, title, link, className, contain = false } = props;
+  const {
+    image,
+    title,
+    text,
+    link,
+    className,
+    contain = false,
+    textSize = "m",
+    onClick = () => {},
+  } = props;
+
+  const hasOverlay = title || text;
+
   return (
     <>
-      <ConditionalLink
-        href={link?.href || "/"}
-        external={!!link?.external}
-        condition={!!link}
-        className={`${className} w-full rounded-theme overflow-hidden shadow-2x `}
+      <li
+        onClick={onClick}
+        className={`${className} relative  overflow-hidden  group`}
       >
-        <div className="flex flex-col pt-4">
-          <div className={`h-full  ${contain ? "relative" : ""}`}>
-            <SanityImage
-              image={image}
-              objectFit={contain ? "contain" : "cover"}
-            />
-          </div>
-          {title && (
-            <div className=" relative h-fit mx-4 mb-4 ">
-              <Typo
-                space={false}
-                className="inline-block py-4 px-6 w-full bg-white rounded-[16px] whitespace-pre-line"
+        <SanityImage image={image} objectFit={contain ? "contain" : "cover"} />
+
+        {hasOverlay && (
+          <div className="absolute inset-0 transition-opacity opacity-0 bg-white backdrop-blur-md bg-opacity-25  group-hover:opacity-100  p-8">
+            <div className=" -translate-x-full -translate-y-full transition-transform  group-hover:translate-x-0  group-hover:translate-y-0 ">
+              <p
+                className={clsx(" font-bold  ", {
+                  "text-[16px]": textSize === "s",
+                  "text-[18px]": textSize === "m",
+                  "text-[20px]": textSize === "l",
+                })}
               >
                 {title}
-              </Typo>
+              </p>
+              <p
+                className={clsx("  whitespace-pre-line break-words", {
+                  "text-[14px]": textSize === "s",
+                  "text-[16px]": textSize === "m",
+                  "text-[18px]": textSize === "l",
+                })}
+              >
+                {text}
+              </p>
             </div>
-          )}
-        </div>
-
-        {/* {image && (
-          <div
-            className={`${contain ? "" : ""} absolute inset-0 w-full h-full`}
-          >
-            <SanityImage image={image} objectFit="cover" />
           </div>
         )}
-
-        {title && (
-          <div className="flex items-end left-4">
-            <div className="pb-4 ">
-              <Typo
-                space={false}
-                bold
-                className="inline-block py-4 px-6 bg-white rounded-theme whitespace-pre-line "
-              >
-                {title}
-              </Typo>
-            </div>
-          </div>
-        )} */}
-      </ConditionalLink>
+      </li>
     </>
   );
 };

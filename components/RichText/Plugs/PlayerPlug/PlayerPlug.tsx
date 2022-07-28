@@ -2,32 +2,95 @@ import clsx from "clsx";
 import { PlugProps } from "@lib/SanityPageBuilder/lib/RichText";
 import React from "react";
 import ReactPlayer from "react-player/lazy";
+import { PlayerPlugResult } from "./playerPlugQuery";
+import { useVideoContext, VideoContextWrap } from "./VideoContext";
+import Typo from "@components/Typography/Typography";
 
 interface IPlayerPlugProps {
   url?: string | null;
-  customWidth?: "1/4" | "1/3" | "1/2" | "2/3" | "full";
 }
 
-const PlayerPlug: React.FC<PlugProps<IPlayerPlugProps>> = (props) => {
-  const { url, customWidth = "2/3" } = props.node;
+const PlayerPlug: React.FC<PlugProps<PlayerPlugResult>> = (props) => {
+  const { url, urls } = props.node;
 
   if (!url) return null;
 
-  return (
-    <div
-      className={clsx(" mx-auto  mb-6 md:mb-12", {
-        "w-full sm:w-1/4": customWidth === "1/4",
-        "w-full sm:w-1/3": customWidth === "1/3",
-        "w-full sm:w-1/2": customWidth === "1/2",
-        "w-full sm:w-2/3": customWidth === "2/3",
-        "w-full": customWidth === "full",
-      })}
-    >
-      <div className=" aspect-w-16  aspect-h-9 ">
-        <ReactPlayer width="100%" height="100%" url={url} />
+  const hasMultiple = urls && urls.length > 1;
+
+  if (url) {
+    return (
+      <div className={clsx(" mx-auto  mb-6 md:mb-12 w-full sm:w-2/3")}>
+        <div className=" aspect-w-16  aspect-h-9 ">
+          <ReactPlayer width="100%" height="100%" url={url} light={true} />
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <VideoContextWrap>
+      <div
+        className={clsx(" mx-auto  mb-6 md:mb-12 w-full gap-8", {
+          "grid md:grid-cols-2": hasMultiple,
+          "sm:w-2/3": !hasMultiple,
+        })}
+      >
+        {urls &&
+          urls.map((i) => {
+            if (!i.url) return null;
+            return (
+              <Video
+                key={i._key}
+                url={i.url}
+                id={i._key}
+                imageUrl={
+                  i.image?.url
+                    ? i.image?.url + hasMultiple
+                      ? "?w=600"
+                      : "?w=1200"
+                    : undefined
+                }
+                title={i.title}
+              />
+            );
+          })}
+      </div>
+    </VideoContextWrap>
   );
 };
 
 export default PlayerPlug;
+
+const Video: React.FC<{
+  url: string;
+  id: string;
+  imageUrl?: string;
+  title?: string | null;
+}> = (props) => {
+  const { url, id, imageUrl, title } = props;
+
+  const { playingVideo, setPlayingVideo } = useVideoContext();
+
+  return (
+    <div>
+      <div className=" aspect-w-16  aspect-h-9 ">
+        <ReactPlayer
+          onPlay={() => {
+            setPlayingVideo(id);
+          }}
+          playing={playingVideo === id}
+          width="100%"
+          height="100%"
+          url={url}
+          light={imageUrl || true}
+          pip={true}
+        />
+      </div>
+      {title && (
+        <Typo space={false} className={"pt-3"}>
+          {title}
+        </Typo>
+      )}
+    </div>
+  );
+};

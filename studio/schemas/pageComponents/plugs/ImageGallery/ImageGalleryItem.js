@@ -4,11 +4,24 @@ export default {
   type: "object",
 
   fields: [
-    { name: "title", title: "title", type: "text" },
+    { name: "title", title: "title", type: "string" },
+    { name: "text", title: "Text", type: "text" },
 
     { name: "image", title: "Image", type: "defaultImage" },
 
-    { name: "link", title: "Link", type: "link" },
+    // { name: "link", title: "Link", type: "link" },
+
+    {
+      title: "Variant",
+      name: "variant",
+      type: "string",
+      options: {
+        list: [
+          { title: "Contain", value: "contain" },
+          { title: "Cover", value: "cover" },
+        ],
+      },
+    },
 
     {
       name: "size",
@@ -19,44 +32,16 @@ export default {
         list: ["m", "l"],
       },
     },
-
-    //   {
-    //     name: "items",
-    //     title: "Images",
-    //     type: "array",
-    //     of: [{ type: "defaultImage" }],
-    //   },
-    // {
-    //   name: "rows",
-    //   title: "Rows",
-    //   type: "number",
-    //   initialValue: 4,
-    //   validation: (Rule) => Rule.required().integer().min(1).max(8),
-    // },
-    // {
-    //   name: "rows_mobile",
-    //   title: "Rows Mobile",
-    //   type: "number",
-    //   initialValue: 2,
-    //   validation: (Rule) => Rule.required().integer().min(1).max(8),
-    // },
-    // {
-    //   name: "ratio",
-    //   title: "Ratio",
-    //   type: "string",
-    //   initialValue: "1:1",
-    //   options: {
-    //     list: ["1:1", "16:9", "2:3", "3:2"],
-    //   },
-    // },
   ],
   preview: {
     select: {
-      name: "name",
+      name: "title",
+      image: "image",
     },
-    prepare({ name }) {
+    prepare({ name, image }) {
       return {
-        title: "ImageGallery: " + name,
+        title: name || "untitled",
+        media: image,
       };
     },
   },

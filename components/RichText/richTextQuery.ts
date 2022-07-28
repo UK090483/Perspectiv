@@ -1,8 +1,9 @@
 import { linkMarkQuery } from "./marks/link";
 import autoGalleryPlugQuery from "./Plugs/AutoGalleryPlug/AutoGalleryPlugQuery";
 import eventPlugQuery from "./Plugs/EventPlug/EventPlugQuery";
-import { imageGalleryPlugQuery } from "./Plugs/ImageGalleryPlug/ImageGalleryPlug";
+import { imageGalleryPlugQuery } from "./Plugs/ImageGalleryPlug/imageGalleryPlugQuery";
 import { ImagePlugQuery } from "./Plugs/ImagePlug/imagePlugQuery";
+import { playerPlugQuery } from "./Plugs/PlayerPlug/playerPlugQuery";
 import { spacerPlugQuery } from "./Plugs/Spacer";
 
 const marksQuery = `
@@ -20,6 +21,7 @@ export const richTextQuery = (locale: string = "") => {
   ${ImagePlugQuery},
   ${eventPlugQuery(locale)},
   ${autoGalleryPlugQuery},
+  ${playerPlugQuery},
 `;
 };
 

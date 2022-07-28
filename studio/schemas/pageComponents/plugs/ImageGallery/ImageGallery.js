@@ -34,6 +34,22 @@ export default {
         list: ["1:1", "16:9", "2:3", "3:2"],
       },
     },
+    {
+      title: "Variant",
+      name: "variant",
+      type: "string",
+      options: {
+        list: [
+          { title: "Contain", value: "contain" },
+          { title: "Cover", value: "cover" },
+        ],
+      },
+    },
+    {
+      title: "LightBox",
+      name: "lightBox",
+      type: "boolean",
+    },
   ],
   preview: {
     select: {
